@@ -1,7 +1,8 @@
 {
   "profiles": {
     "OBRVisualizer": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "cypr_04_obr.obr"
     }
   }
 }
