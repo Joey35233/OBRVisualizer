@@ -180,6 +180,7 @@ namespace WinUISolution
             StorageFile file = StorageFile.GetFileFromPathAsync(originalBinaryPath).GetAwaiter().GetResult();
             StorageFile xmlFile = StorageFile.GetFileFromPathAsync(originalPointsTSVPath).GetAwaiter().GetResult();
             using (var reader = new BinaryReader(file.OpenStreamForReadAsync().Result))
+            using (var streamReader = new StreamReader(xmlFile.OpenStreamForReadAsync().Result))
             {
                 reader.BaseStream.Position = 4 * 11;
                 uint numBlocksHOffset = reader.ReadUInt32();
@@ -194,15 +195,6 @@ namespace WinUISolution
 
                 reader.BaseStream.Position += 80;
 
-                var streamReader = new StreamReader(xmlFile.OpenStreamForReadAsync().Result);
-                Point[] xmlPoints = new Point[numObjectsMetadata.Value];
-                for (int i = 0; i < xmlPoints.Length; i++)
-                {
-                    var pointString = streamReader.ReadLine();
-                    var parsedPoint = pointString.Split('\t');
-                    xmlPoints[i] = new Point(double.Parse(parsedPoint[0]), double.Parse(parsedPoint[1]));
-                }
-
                 Object[] objects = new Object[numObjectsMetadata.Value];
                 for (int i = 0; i < numObjectsMetadata.Value; i++)
                 {
@@ -212,7 +204,10 @@ namespace WinUISolution
                     obj.XTranslation = blockSizeWMetadata.Value * (obj.BlockID % numBlocksWMetadata.Value + 0.5f - 0.5f * numBlocksWMetadata.Value) + blockSizeWMetadata.Value * obj.xTranslation / short.MaxValue;
                     obj.ZTranslation = blockSizeHMetadata.Value * (obj.BlockID / numBlocksHMetadata.Value + 0.5f - 0.5f * numBlocksHMetadata.Value) + blockSizeHMetadata.Value * obj.zTranslation / short.MaxValue;
 
-                    AddPoint(xmlPoints[i], new Point(obj.XTranslation, obj.ZTranslation));
+                    var pointString = streamReader.ReadLine();
+                    var parsedPoint = pointString.Split('\t');
+                    var xmlPoint = new Point(double.Parse(parsedPoint[0]), double.Parse(parsedPoint[1]));
+                    AddPoint(xmlPoint, new Point(obj.XTranslation, obj.ZTranslation));
                 }
             }
         }
