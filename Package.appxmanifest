@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="d2329005-03a5-413e-bf74-9a0da1edd931" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>WinUISolution</DisplayName>
+    <DisplayName>OBRVisualizer</DisplayName>
     <PublisherDisplayName>joey3</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -35,12 +35,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="WinUISolution.App">
+      EntryPoint="OBRVisualizer.App">
       <uap:VisualElements
-        DisplayName="WinUISolution"
+        DisplayName="OBRVisualizer"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="WinUISolution"
+        Description="OBRVisualizer"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
