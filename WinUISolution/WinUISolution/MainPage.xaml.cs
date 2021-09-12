@@ -201,14 +201,24 @@ namespace WinUISolution
                     ref Object obj = ref objects[i];
                     obj = new Object(reader);
 
-                    obj.XTranslation = blockSizeWMetadata.Value * (obj.BlockID % numBlocksWMetadata.Value + 0.5f - 0.5f * numBlocksWMetadata.Value) + blockSizeWMetadata.Value * obj.xTranslation / short.MaxValue;
-                    obj.ZTranslation = blockSizeHMetadata.Value * (obj.BlockID / numBlocksHMetadata.Value + 0.5f - 0.5f * numBlocksHMetadata.Value) + blockSizeHMetadata.Value * obj.zTranslation / short.MaxValue;
+                    obj.XTranslation = blockSizeWMetadata.Value * (obj.BlockID % numBlocksWMetadata.Value + 0.5f - 0.5f * numBlocksWMetadata.Value) + blockSizeWMetadata.Value * obj.xTranslation / 32640;
+                    obj.ZTranslation = blockSizeHMetadata.Value * (obj.BlockID / numBlocksHMetadata.Value + 0.5f - 0.5f * numBlocksHMetadata.Value) + blockSizeHMetadata.Value * obj.zTranslation / 32640;
 
                     var pointString = streamReader.ReadLine();
                     var parsedPoint = pointString.Split('\t');
                     var xmlPoint = new Point(double.Parse(parsedPoint[0]), double.Parse(parsedPoint[1]));
                     AddPoint(xmlPoint, new Point(obj.XTranslation, obj.ZTranslation));
                 }
+
+                //var debugTextBox = new TextBox
+                //{
+                //    AcceptsReturn = true
+                //};
+                //var tempText = "";
+                //foreach (var obj in objects)
+                //    tempText += $"P({obj.xTranslation}, {obj.zTranslation}, {obj.BlockID})\n";
+                //debugTextBox.Text = tempText;
+                //OBRCanvas.Children.Add(debugTextBox);
             }
         }
 
@@ -273,7 +283,7 @@ namespace WinUISolution
                 };
                 line.SetValue(Canvas.LeftProperty, 0);
                 line.SetValue(Canvas.TopProperty, 0);
-                line.SetValue(Canvas.ZIndexProperty, 4);
+                line.SetValue(Canvas.ZIndexProperty, 1);
                 OBRCanvas.Children.Add(line);
             }
         }
